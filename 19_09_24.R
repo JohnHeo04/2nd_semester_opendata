@@ -49,25 +49,40 @@ data.tmp %>% dim()
 data.tmp %>% head()
 
 
-data.air %>% left_join(data.tmp, by="hour")
+data.air.tmp <- data.air %>% left_join(data.tmp, by=c("date","hour"))
+
+
+x <- data.air.tmp$hour
+y <- data.air.tmp$PM_10
+plot(x, y, type="o")
+
+ggplot(data.air.tmp, aes(x=hour, y=PM_10, color=기온)) + 
+  geom_line(size=10, lineend="square") + 
+  geom_point(size=5) + 
+  scale_color_gradientn(colours=rainbow(10))
+
+
+# 브라우저에서 그래프 출력하기
+install.packages("plotly")
+
+library(plotly)
+
+ggp.line <-ggplot(data.air.tmp, aes(x=hour, y=PM_10, color=기온)) + 
+  geom_line(size=10, lineend="square") + 
+  geom_point(size=5) + 
+  scale_color_gradientn(colours=rainbow(10))
+
+ggp.line
+
+ggplotly(ggp.line)
 
 
 
+# 코드가 정어려울때 불러서 쓰는 패키지
+install.packages("Rcmdr")
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+library(Rcmdr)
 
 
 
